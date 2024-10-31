@@ -44,7 +44,10 @@
 #ifdef __APPLE__
 #define sys_mmap mmap
 #define sys_munmap munmap
-#define MAP_ANONYMOUS MAP_ANON
+#ifndef MAP_ANONYMOUS
+#define MAP_ANONYMOUS 0x1000
+#endif//MAP_ANONYMOUS
+extern "C" int getpagesize();
 #else
 #include "third_party/lss/linux_syscall_support.h"
 #endif
