@@ -668,6 +668,8 @@ DISABLE_TOOLS_FALSE
 DISABLE_TOOLS_TRUE
 DISABLE_PROCESSOR_FALSE
 DISABLE_PROCESSOR_TRUE
+APPLE_HOST_FALSE
+APPLE_HOST_TRUE
 X86_HOST_FALSE
 X86_HOST_TRUE
 ANDROID_HOST_FALSE
@@ -10307,6 +10309,19 @@ else
   ANDROID_HOST_FALSE=
 fi
 
+# Build Linux dump_syms on OS X to allow ELF binaries to be dumped
+case $host in
+  *-apple*)
+    APPLE_HOST=true
+    ;;
+esac
+ if test x$APPLE_HOST = xtrue; then
+  APPLE_HOST_TRUE=
+  APPLE_HOST_FALSE='#'
+else
+  APPLE_HOST_TRUE='#'
+  APPLE_HOST_FALSE=
+fi
 
 # Some tools (like mac ones) only support x86 currently.
 case $host_cpu in
@@ -10754,6 +10769,10 @@ Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${ANDROID_HOST_TRUE}" && test -z "${ANDROID_HOST_FALSE}"; then
   as_fn_error $? "conditional \"ANDROID_HOST\" was never defined.
+Usually this means the macro was only invoked conditionally." "$LINENO" 5
+fi
+if test -z "${APPLE_HOST_TRUE}" && test -z "${APPLE_HOST_FALSE}"; then
+  as_fn_error $? "conditional \"APPLE_HOST\" was never defined.
 Usually this means the macro was only invoked conditionally." "$LINENO" 5
 fi
 if test -z "${X86_HOST_TRUE}" && test -z "${X86_HOST_FALSE}"; then

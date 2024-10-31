@@ -60,6 +60,10 @@
 #include <utility>
 #include <vector>
 
+#if defined(__APPLE__)
+#include <libgen.h>
+#endif
+
 #include "common/dwarf/bytereader-inl.h"
 #include "common/dwarf/dwarf2diehandler.h"
 #include "common/dwarf_cfi_to_module.h"

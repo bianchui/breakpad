@@ -302,6 +302,13 @@ endif
 
 endif LINUX_HOST
 
+if APPLE_HOST
+if !DISABLE_TOOLS
+bin_PROGRAMS += \
+	src/tools/linux/dump_syms/dump_syms
+endif
+endif APPLE_HOST
+
 endif !DISABLE_TOOLS
 
 TESTS = $(check_PROGRAMS) $(check_SCRIPTS)
@@ -678,6 +685,7 @@ src_tools_linux_dump_syms_dump_syms_SOURCES = \
 	src/common/path_helper.cc \
 	src/common/stabs_reader.cc \
 	src/common/stabs_to_module.cc \
+	src/common/memrchr.cc \
 	src/common/dwarf/bytereader.cc \
 	src/common/dwarf/dwarf2diehandler.cc \
 	src/common/dwarf/dwarf2reader.cc \
@@ -700,6 +708,12 @@ src_tools_linux_dump_syms_dump_syms_LDADD = \
 	$(RUSTC_DEMANGLE_LIBS) \
 	$(ZSTD_CFLAGS) \
 	-lz
+if APPLE_HOST
+src_tools_linux_dump_syms_dump_syms_SOURCES += \
+	src/common/memrchr.cc
+src_tools_linux_dump_syms_dump_syms_CXXFLAGS += \
+	-I$(top_srcdir)/src/third_party/linux/include
+endif
 
 src_tools_linux_md2core_minidump_2_core_SOURCES = \
 	src/common/linux/memory_mapped_file.cc \
@@ -737,6 +751,7 @@ src_tools_mac_dump_syms_dump_syms_mac_SOURCES = \
 	src/common/path_helper.cc \
 	src/common/stabs_reader.cc \
 	src/common/stabs_to_module.cc \
+	src/common/memrchr.cc \
 	src/common/dwarf/bytereader.cc \
 	src/common/dwarf/dwarf2diehandler.cc \
 	src/common/dwarf/dwarf2reader.cc \
@@ -1789,6 +1804,10 @@ EXTRA_DIST = \
 	src/tools/windows/dump_syms/testdata/omap_stretched.sym \
 	src/tools/windows/dump_syms/testdata/omap_stretched_filled.sym \
 	src/tools/windows/symupload/symupload.cc
+
+EXTRA_DIST += \
+	src/common/memrchr.cc \
+	src/common/memrchr.h \
 
 mostlyclean-local:
 	-find src -name '*.dwo' -exec rm -f {} +

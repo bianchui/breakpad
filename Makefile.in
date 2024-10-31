@@ -234,6 +234,9 @@ EXTRA_PROGRAMS = $(am__EXEEXT_1)
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/symupload/minidump_upload \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/symupload/sym_upload
 
+@DISABLE_TOOLS_FALSE@@APPLE_HOST_TRUE@am__append_17 = \
+@DISABLE_TOOLS_FALSE@@APPLE_HOST_TRUE@ src/tools/linux/dump_syms/dump_syms
+
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@am__append_18 = \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@	src/tools/mac/dump_syms/dump_syms_mac
 
@@ -333,6 +336,7 @@ CONFIG_CLEAN_VPATH_FILES =
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/md2core/minidump-2-core$(EXEEXT) \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/symupload/minidump_upload$(EXEEXT) \
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@	src/tools/linux/symupload/sym_upload$(EXEEXT)
+@DISABLE_TOOLS_FALSE@@APPLE_HOST_TRUE@am__EXEEXT_3 = src/tools/linux/dump_syms/dump_syms$(EXEEXT)
 @DISABLE_TOOLS_FALSE@@LINUX_HOST_TRUE@@X86_HOST_TRUE@am__EXEEXT_4 = src/tools/mac/dump_syms/dump_syms_mac$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(libexecdir)" \
 	"$(DESTDIR)$(libdir)" "$(DESTDIR)$(docdir)" \
@@ -1345,6 +1349,7 @@ am_src_tools_linux_dump_syms_dump_syms_OBJECTS = src/common/tools_linux_dump_sym
 	src/common/tools_linux_dump_syms_dump_syms-path_helper.$(OBJEXT) \
 	src/common/tools_linux_dump_syms_dump_syms-stabs_reader.$(OBJEXT) \
 	src/common/tools_linux_dump_syms_dump_syms-stabs_to_module.$(OBJEXT) \
+	src/common/tools_linux_dump_syms_dump_syms-memrchr.$(OBJEXT) \
 	src/common/dwarf/tools_linux_dump_syms_dump_syms-bytereader.$(OBJEXT) \
 	src/common/dwarf/tools_linux_dump_syms_dump_syms-dwarf2diehandler.$(OBJEXT) \
 	src/common/dwarf/tools_linux_dump_syms_dump_syms-dwarf2reader.$(OBJEXT) \
@@ -1531,6 +1536,7 @@ am__depfiles_remade = src/client/$(DEPDIR)/minidump_file_writer.Po \
 	src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-path_helper.Po \
 	src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-stabs_reader.Po \
 	src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-stabs_to_module.Po \
+	src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Po \
 	src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_cfi_to_module.Po \
 	src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_cu_to_module.Po \
 	src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_line_to_module.Po \
@@ -2674,6 +2680,7 @@ src_tools_linux_dump_syms_dump_syms_SOURCES = \
 	src/common/path_helper.cc \
 	src/common/stabs_reader.cc \
 	src/common/stabs_to_module.cc \
+	src/common/memrchr.cc \
 	src/common/dwarf/bytereader.cc \
 	src/common/dwarf/dwarf2diehandler.cc \
 	src/common/dwarf/dwarf2reader.cc \
@@ -2698,6 +2705,11 @@ src_tools_linux_dump_syms_dump_syms_LDADD = \
 	$(RUSTC_DEMANGLE_LIBS) \
 	$(ZSTD_CFLAGS) \
 	-lz
+
+@APPLE_HOST_TRUE@src_tools_linux_dump_syms_dump_syms_SOURCES += \
+@APPLE_HOST_TRUE@ src/common/memrchr.cc
+@APPLE_HOST_TRUE@src_tools_linux_dump_syms_dump_syms_CXXFLAGS += \
+@APPLE_HOST_TRUE@ -I$(top_srcdir)/src/third_party/linux/include
 
 src_tools_linux_md2core_minidump_2_core_SOURCES = \
 	src/common/linux/memory_mapped_file.cc \
@@ -5084,6 +5096,9 @@ src/common/tools_linux_dump_syms_dump_syms-stabs_reader.$(OBJEXT):  \
 src/common/tools_linux_dump_syms_dump_syms-stabs_to_module.$(OBJEXT):  \
 	src/common/$(am__dirstamp) \
 	src/common/$(DEPDIR)/$(am__dirstamp)
+src/common/tools_linux_dump_syms_dump_syms-memrchr.$(OBJEXT):  \
+	src/common/$(am__dirstamp) \
+	src/common/$(DEPDIR)/$(am__dirstamp)
 src/common/dwarf/tools_linux_dump_syms_dump_syms-bytereader.$(OBJEXT):  \
 	src/common/dwarf/$(am__dirstamp) \
 	src/common/dwarf/$(DEPDIR)/$(am__dirstamp)
@@ -5393,6 +5408,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-path_helper.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-stabs_reader.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-stabs_to_module.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_cfi_to_module.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_cu_to_module.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_line_to_module.Po@am__quote@ # am--include-marker
@@ -8021,6 +8037,20 @@ src/common/tools_linux_dump_syms_dump_syms-stabs_to_module.obj: src/common/stabs
 @AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_tools_linux_dump_syms_dump_syms_CXXFLAGS) $(CXXFLAGS) -c -o src/common/tools_linux_dump_syms_dump_syms-stabs_to_module.obj `if test -f 'src/common/stabs_to_module.cc'; then $(CYGPATH_W) 'src/common/stabs_to_module.cc'; else $(CYGPATH_W) '$(srcdir)/src/common/stabs_to_module.cc'; fi`
 
+src/common/tools_linux_dump_syms_dump_syms-memrchr.o: src/common/memrchr.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_tools_linux_dump_syms_dump_syms_CXXFLAGS) $(CXXFLAGS) -MT src/common/tools_linux_dump_syms_dump_syms-memrchr.o -MD -MP -MF src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Tpo -c -o src/common/tools_linux_dump_syms_dump_syms-memrchr.o `test -f 'src/common/memrchr.cc' || echo '$(srcdir)/'`src/common/memrchr.cc
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Tpo src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/common/memrchr.cc' object='src/common/tools_linux_dump_syms_dump_syms-memrchr.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_tools_linux_dump_syms_dump_syms_CXXFLAGS) $(CXXFLAGS) -c -o src/common/tools_linux_dump_syms_dump_syms-memrchr.o `test -f 'src/common/memrchr.cc' || echo '$(srcdir)/'`src/common/memrchr.cc
+
+src/common/tools_linux_dump_syms_dump_syms-memrchr.obj: src/common/memrchr.cc
+@am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_tools_linux_dump_syms_dump_syms_CXXFLAGS) $(CXXFLAGS) -MT src/common/tools_linux_dump_syms_dump_syms-memrchr.obj -MD -MP -MF src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Tpo -c -o src/common/tools_linux_dump_syms_dump_syms-memrchr.obj `if test -f 'src/common/memrchr.cc'; then $(CYGPATH_W) 'src/common/memrchr.cc'; else $(CYGPATH_W) '$(srcdir)/src/common/memrchr.cc'; fi`
+@am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Tpo src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Po
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	$(AM_V_CXX)source='src/common/memrchr.cc' object='src/common/tools_linux_dump_syms_dump_syms-memrchr.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCXX_FALSE@	DEPDIR=$(DEPDIR) $(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCXX_FALSE@	$(AM_V_CXX@am__nodep@)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_tools_linux_dump_syms_dump_syms_CXXFLAGS) $(CXXFLAGS) -c -o src/common/tools_linux_dump_syms_dump_syms-memrchr.obj `if test -f 'src/common/memrchr.cc'; then $(CYGPATH_W) 'src/common/memrchr.cc'; else $(CYGPATH_W) '$(srcdir)/src/common/memrchr.cc'; fi`
+
 src/common/dwarf/tools_linux_dump_syms_dump_syms-bytereader.o: src/common/dwarf/bytereader.cc
 @am__fastdepCXX_TRUE@	$(AM_V_CXX)$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(src_tools_linux_dump_syms_dump_syms_CXXFLAGS) $(CXXFLAGS) -MT src/common/dwarf/tools_linux_dump_syms_dump_syms-bytereader.o -MD -MP -MF src/common/dwarf/$(DEPDIR)/tools_linux_dump_syms_dump_syms-bytereader.Tpo -c -o src/common/dwarf/tools_linux_dump_syms_dump_syms-bytereader.o `test -f 'src/common/dwarf/bytereader.cc' || echo '$(srcdir)/'`src/common/dwarf/bytereader.cc
 @am__fastdepCXX_TRUE@	$(AM_V_at)$(am__mv) src/common/dwarf/$(DEPDIR)/tools_linux_dump_syms_dump_syms-bytereader.Tpo src/common/dwarf/$(DEPDIR)/tools_linux_dump_syms_dump_syms-bytereader.Po
@@ -9675,6 +9705,7 @@ distclean: distclean-am
 	-rm -f src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-path_helper.Po
 	-rm -f src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-stabs_reader.Po
 	-rm -f src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-stabs_to_module.Po
+	-rm -f src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Po
 	-rm -f src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_cfi_to_module.Po
 	-rm -f src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_cu_to_module.Po
 	-rm -f src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_line_to_module.Po
@@ -10035,6 +10066,7 @@ maintainer-clean: maintainer-clean-am
 	-rm -f src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-path_helper.Po
 	-rm -f src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-stabs_reader.Po
 	-rm -f src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-stabs_to_module.Po
+	-rm -f src/common/$(DEPDIR)/tools_linux_dump_syms_dump_syms-memrchr.Po
 	-rm -f src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_cfi_to_module.Po
 	-rm -f src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_cu_to_module.Po
 	-rm -f src/common/$(DEPDIR)/tools_mac_dump_syms_dump_syms_mac-dwarf_line_to_module.Po

@@ -112,6 +112,14 @@ case $host in
 esac
 AM_CONDITIONAL(ANDROID_HOST, test x$ANDROID_HOST = xtrue)
 
+# Build Linux dump_syms on OS X to allow ELF binaries to be dumped
+case $host in
+  *-apple*)
+    APPLE_HOST=true
+    ;;
+esac
+AM_CONDITIONAL(APPLE_HOST, test x$APPLE_HOST = xtrue)
+
 # Some tools (like mac ones) only support x86 currently.
 case $host_cpu in
   i?86|x86_64)
